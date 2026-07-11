@@ -1,50 +1,31 @@
-import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  Pressable, 
-  ScrollView, 
-  Platform,
-  Alert,
-  Share,
-  Clipboard,
-  TextInput,
-  ActivityIndicator
-} from 'react-native';
-import { useSpotify } from '@/context/spotify-context';
-import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { useSpotify } from '@/context/spotify-context';
+import { useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
 
 export default function SettingsScreen() {
   const { 
-    clientId, 
     isAuthenticated, 
     isLoggingIn,
     login,
     logout, 
-    redirectUri,
     playTrack,
     wakeUpSpotify
   } = useSpotify();
 
   const [testTrackUrl, setTestTrackUrl] = useState('');
   const [isTestingPlay, setIsTestingPlay] = useState(false);
-
-  const handleCopyRedirectUri = () => {
-    Clipboard.setString(redirectUri);
-    Alert.alert('Skopiowano', 'Link redirect URI został skopiowany do schowka.');
-  };
-
-  const handleShareRedirectUri = async () => {
-    try {
-      await Share.share({
-        message: redirectUri,
-      });
-    } catch (error: any) {
-      console.error('Error sharing:', error.message);
-    }
-  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -128,9 +109,9 @@ export default function SettingsScreen() {
         {isAuthenticated && (
           <View style={styles.card}>
             <ThemedText type="smallBold" style={styles.sectionHeader}>Test Odtwarzania</ThemedText>
-            <ThemedText style={styles.cardText}>
-              Wklej link do utworu Spotify, aby przetestować odtwarzanie w tle bez używania kamery.
-            </ThemedText>
+            {/* <ThemedText style={styles.cardText}>
+              Wklej link do utworu Spotify, aby przetestować odtwarzanie.
+            </ThemedText> */}
             
             <TextInput
               style={styles.textInput}
@@ -149,58 +130,11 @@ export default function SettingsScreen() {
               {isTestingPlay ? (
                 <ActivityIndicator color="black" />
               ) : (
-                <Text style={styles.testButtonText}>Przetestuj odtwarzanie w tle</Text>
+                <Text style={styles.testButtonText}>Przetestuj odtwarzanie</Text>
               )}
             </Pressable>
           </View>
         )}
-
-        {/* Configuration Card */}
-        <View style={styles.card}>
-          <ThemedText type="smallBold" style={styles.sectionHeader}>Konfiguracja Aplikacji</ThemedText>
-          
-          <View style={styles.configItem}>
-            <ThemedText style={styles.label}>ID Klienta Spotify (z pliku .env):</ThemedText>
-            <View style={styles.clientIdDisplay}>
-              <Text style={styles.clientIdDisplayText} numberOfLines={1}>
-                {clientId ? `${clientId.substring(0, 8)}...${clientId.substring(clientId.length - 8)}` : 'Brak konfiguracji w .env'}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.configItem}>
-            <ThemedText style={styles.label}>Status Konfiguracji:</ThemedText>
-            <Text style={[styles.statusBadge, clientId ? styles.badgeSuccess : styles.badgeError]}>
-              {clientId ? 'Skonfigurowano dewelopersko' : 'Wymaga pliku .env'}
-            </Text>
-          </View>
-        </View>
-
-        {/* Setup Guide Card for Developers */}
-        <View style={styles.card}>
-          <ThemedText type="smallBold" style={styles.sectionHeader}>Konfiguracja w Spotify for Developers</ThemedText>
-          <ThemedText style={styles.guideStep}>
-            Aby logowanie użytkowników działało poprawnie, w ustawieniach Twojej aplikacji na **developer.spotify.com** w sekcji **Redirect URIs** musisz dodać poniższy adres:
-          </ThemedText>
-
-          <View style={styles.uriContainer}>
-            <Text style={styles.uriText} numberOfLines={2}>
-              {redirectUri}
-            </Text>
-            <View style={styles.uriButtons}>
-              <Pressable style={styles.uriActionButton} onPress={handleCopyRedirectUri}>
-                <Text style={styles.uriActionButtonText}>Kopiuj</Text>
-              </Pressable>
-              <Pressable style={styles.uriActionButton} onPress={handleShareRedirectUri}>
-                <Text style={styles.uriActionButtonText}>Udostępnij</Text>
-              </Pressable>
-            </View>
-          </View>
-
-          <ThemedText style={styles.guideStepSub}>
-            Wskazówka: Zarejestruj zarówno `hitscanner://spotify-auth` (dla gotowej aplikacji), dynamiczne adresy Metro IP (widoczne powyżej), jak i `http://localhost:8081` (jeśli debugujesz w wersji Web).
-          </ThemedText>
-        </View>
 
         {/* Info Card */}
         <View style={styles.infoCard}>
@@ -327,87 +261,6 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: '#156535',
     opacity: 0.7,
-  },
-  configItem: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    color: '#b3b3b3',
-    marginBottom: 8,
-  },
-  clientIdDisplay: {
-    backgroundColor: '#1e1e1e',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#282828',
-  },
-  clientIdDisplayText: {
-    color: '#888888',
-    fontSize: 14,
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-  },
-  statusBadge: {
-    alignSelf: 'flex-start',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    fontSize: 12,
-    fontWeight: 'bold',
-    overflow: 'hidden',
-  },
-  badgeSuccess: {
-    backgroundColor: 'rgba(29, 185, 84, 0.1)',
-    color: '#1DB954',
-  },
-  badgeError: {
-    backgroundColor: 'rgba(233, 20, 41, 0.1)',
-    color: '#e91429',
-  },
-  guideStep: {
-    fontSize: 14,
-    color: '#b3b3b3',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  guideStepSub: {
-    fontSize: 12,
-    color: '#7f7f7f',
-    lineHeight: 16,
-    marginTop: 8,
-  },
-  uriContainer: {
-    backgroundColor: '#1e1e1e',
-    borderWidth: 1,
-    borderColor: '#3e3e3e',
-    borderRadius: 8,
-    padding: 12,
-    marginVertical: 4,
-  },
-  uriText: {
-    color: '#888888',
-    fontSize: 13,
-    lineHeight: 18,
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    marginBottom: 10,
-  },
-  uriButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 8,
-  },
-  uriActionButton: {
-    backgroundColor: '#3e3e3e',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-  },
-  uriActionButtonText: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: 'bold',
   },
   infoCard: {
     flexDirection: 'row',

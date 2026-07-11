@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Pressable, ActivityIndicator, Image, Alert } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import { router } from 'expo-router';
-import { useSpotify } from '@/context/spotify-context';
-import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
-import { Colors } from '@/constants/theme';
+import { ThemedView } from '@/components/themed-view';
+import { useSpotify } from '@/context/spotify-context';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated';
 
 export default function HomeScreen() {
@@ -152,10 +150,10 @@ export default function HomeScreen() {
             <Text style={styles.discSymbol}>{isPlaying ? '🎵' : '⏸️'}</Text>
           </View>
 
-          <ThemedText type="subtitle" style={styles.cardTitle}>Odtwarzanie w tle</ThemedText>
-          <ThemedText style={styles.cardText}>
+          <ThemedText type="subtitle" style={styles.cardTitle}>Odtwarzanie</ThemedText>
+          {/* <ThemedText style={styles.cardText}>
             Piosenka została pomyślnie wysłana i gra w tle na Twoim koncie Spotify.
-          </ThemedText>
+          </ThemedText> */}
 
           <Pressable 
             style={[
@@ -219,9 +217,9 @@ export default function HomeScreen() {
         </View>
         
         <View style={styles.overlayBottom}>
-          <ThemedText type="small" style={styles.bgMusicHint}>
+          {/* <ThemedText type="small" style={styles.bgMusicHint}>
             Muzyka zacznie grać automatycznie w tle.
-          </ThemedText>
+          </ThemedText> */}
         </View>
       </View>
 
