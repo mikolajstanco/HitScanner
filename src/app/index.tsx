@@ -51,7 +51,7 @@ export default function HomeScreen() {
             Aplikacja HitScanner wymaga zalogowania do konta Spotify przed rozpoczęciem skanowania kodów QR.
           </ThemedText>
           <ThemedText style={styles.cardTextSub}>
-            Muzyka będzie odtwarzana w tle na Twoim aktywnym urządzeniu Spotify (np. telefonie lub komputerze).
+            Muzyka będzie odtwarzana w tle na Twoim aktywnym urządzeniu Spotify.
           </ThemedText>
 
           <Pressable 
@@ -357,7 +357,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  // Success state components
   discContainer: {
     width: 120,
     height: 120,

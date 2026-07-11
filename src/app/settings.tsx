@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 60,
     paddingBottom: 60,
   },
   title: {
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 24,
     marginTop: Platform.OS === 'ios' ? 20 : 0,
+    textAlign: 'center',
   },
   card: {
     backgroundColor: '#121212',

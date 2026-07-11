@@ -12,9 +12,9 @@ const ACCESS_TOKEN_KEY = '@spotify_access_token';
 const REFRESH_TOKEN_KEY = '@spotify_refresh_token';
 const EXPIRES_AT_KEY = '@spotify_expires_at';
 
-// Read Spotify credentials from environment variables (with hardcoded fallbacks for caching safety)
-const SPOTIFY_CLIENT_ID = process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_ID || '53a45f938be0429bba6b0c0ef0fcf3e3';
-const SPOTIFY_CLIENT_SECRET = process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_SECRET || '93e00bd839df43bfa7d76748d4b82425';
+// Read Spotify credentials from environment variables
+const SPOTIFY_CLIENT_ID = process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_ID || '';
+const SPOTIFY_CLIENT_SECRET = process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_SECRET || '';
 
 export interface SpotifyDevice {
   id: string;
