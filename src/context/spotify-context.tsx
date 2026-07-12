@@ -65,6 +65,7 @@ export const SpotifyProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Generate redirect URI dynamically
   const redirectUri = makeRedirectUri({
     scheme: 'hitscanner',
+    path: 'redirect',
   });
 
   // Setup AuthSession request hook
